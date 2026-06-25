@@ -128,7 +128,7 @@ form.addEventListener('submit', async (e) => {
   };
 
   try {
-    const res = await fetch('http://localhost:3000/api/jobs', {
+    const res = await fetch('/api/jobs', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
@@ -161,7 +161,7 @@ function viewApplications(){
     return;
   }
 
-  fetch("http://localhost:3000/employer/applications/" + employerId)
+  fetch("/employer/applications/" + employerId)
   .then(res => res.json())
   .then(data => {
 

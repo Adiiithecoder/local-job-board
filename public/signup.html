@@ -33,7 +33,7 @@ document.getElementById("signupForm").addEventListener("submit", async function(
     const password = document.getElementById("password").value;
     const role = document.getElementById("role").value;
 
-    const res = await fetch("http://localhost:3000/signup", {
+    const res = await fetch("/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password, role })
@@ -44,7 +44,7 @@ document.getElementById("signupForm").addEventListener("submit", async function(
 
     if(res.ok){
         // ✅ Important: Store user_id and role in localStorage for later apply
-        fetch("http://localhost:3000/login", {
+        fetch("/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password, role })

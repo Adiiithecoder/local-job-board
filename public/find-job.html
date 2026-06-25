@@ -83,7 +83,7 @@ menuToggle.addEventListener("click",()=>{
 
 
 async function loadJobs() {
-  const res = await fetch("http://localhost:3000/api/jobs");
+  const res = await fetch("/api/jobs");
   const jobs = await res.json();
 
   const jobsList = document.getElementById("jobsList");
@@ -120,7 +120,7 @@ document.querySelector(".filter-btn").addEventListener("click", async function (
   const keyword = document.querySelector(".filter-group input").value.toLowerCase();
   const location = document.querySelector(".filter-group select").value;
 
-  const res = await fetch("http://localhost:3000/api/jobs");
+  const res = await fetch("/api/jobs");
   const jobs = await res.json();
 
   const jobsList = document.getElementById("jobsList");

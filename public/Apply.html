@@ -54,7 +54,7 @@ document.getElementById('job_id').value = jobId;
 document.getElementById('applyForm').addEventListener('submit', function(e){
     e.preventDefault();
 
-    fetch("http://localhost:3000/apply", {
+    fetch("/apply", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

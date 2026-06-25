@@ -24,7 +24,7 @@ if (!employerId || role !== "employer") {
 // ================= LOAD APPLICATIONS =================
 function loadApplications() {
 
-    fetch("http://localhost:3000/employer/applications/" + employerId)
+    fetch("/employer/applications/" + employerId)
     .then(res => res.json())
     .then(data => {
 
