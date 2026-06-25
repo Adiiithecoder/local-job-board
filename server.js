@@ -12,11 +12,12 @@ app.use(express.static('public'));
 
 // ================= DATABASE CONNECTION =================
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Root",
-  database: "job_portal"
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "Root",
+  database: process.env.DB_NAME || "job_portal"
 });
+
 
 db.connect((err) => {
   if (err) {
