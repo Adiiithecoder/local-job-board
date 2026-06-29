@@ -1,70 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Signup</title>
-    <link rel="stylesheet" href="Signup.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup | LocalJobs</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4ff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            background: #fff;
+            padding: 40px 36px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #1a1a2e;
+            font-size: 24px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        input:focus, select:focus { border-color: #2563eb; }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+        button:hover { background: #1d4ed8; }
+        .bottom-link { text-align: center; font-size: 14px; color: #666; }
+        .bottom-link a { color: #2563eb; font-weight: 600; text-decoration: none; }
+    </style>
 </head>
 <body>
-
-<h2>Signup</h2>
-
-<form id="signupForm">
-    <input type="text" id="name" placeholder="Full Name" required><br><br>
-    <input type="email" id="email" placeholder="Email" required><br><br>
-    <input type="password" id="password" placeholder="Password" required><br><br>
-
-    <select id="role" required>
-        <option value="">Select Role</option>
-        <option value="seeker">Job Seeker</option>
-        <option value="employer">Employer</option>
-    </select><br><br>
-
-    <button type="submit">Signup</button>
-        <a href="login.html">login</a>
-
-</form>
-
-<script>
-document.getElementById("signupForm").addEventListener("submit", async function(e){
-    e.preventDefault();
-
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const role = document.getElementById("role").value;
-
-    const res = await fetch("/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, role })
-    });
-
-    const data = await res.json();
-    alert(data.message);
-
-    if(res.ok){
-        // ✅ Important: Store user_id and role in localStorage for later apply
-        fetch("/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password, role })
-        })
-        .then(res => res.json())
-        .then(loginData => {
-            if(loginData.user){
-                localStorage.setItem("user_id", loginData.user.id); // ✅ store user id
-                localStorage.setItem("role", loginData.user.role);  // ✅ store role
-
-                // Redirect to proper page
-                if(role === "seeker"){
-                    window.location.href = "find-job.html";
-                } else {
-                    window.location.href = "post-job.html";
-                }
+    <div class="card">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <select id="role" required>
+                <option value="">Select Role</option>
+                <option value="seeker">Job Seeker</option>
+                <option value="employer">Employer</option>
+            </select>
+            <button type="submit">Create Account</button>
+        </form>
+        <div class="bottom-link">
+            Already have an account? <a href="login.html">Login</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const role = document.getElementById("role").value;
+            const res = await fetch("/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password, role })
+            });
+            const data = await res.json();
+            alert(data.message);
+            if (res.ok) {
+                fetch("/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password, role })
+                })
+                .then(res => res.json())
+                .then(loginData => {
+                    if (loginData.user) {
+                        localStorage.setItem("user_id", loginData.user.id);
+                        localStorage.setItem("role", loginData.user.role);
+                        if (role === "seeker") {
+                            window.location.href = "find-job.html";
+                        } else {
+                            window.location.href = "post-job.html";
+                        }
+                    }
+                });
             }
         });
-    }
-});
-</script>
+    </script>
 </body>
 </html>
